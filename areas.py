@@ -1,4 +1,5 @@
-from gmaps import pollGmaps
+from gmaps import pollGmapsMock
+from group import groupData
 
 def findNearby(req):
   '''
@@ -8,6 +9,7 @@ def findNearby(req):
   lng = req['lng']
   preferences = req['preferences']
 
-  fetchedData = pollGmaps(lat, lng, preferences)
+  fetchedData = pollGmapsMock(lat, lng, preferences)
+  groupedData = groupData(fetchedData)
   
-  return fetchedData
+  return groupedData
