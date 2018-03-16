@@ -6,6 +6,7 @@ from flask_cors import CORS
 
 import json
 from areas import findNearby
+from advertisements import addAds
 
 app = Flask(__name__)
 CORS(app)
@@ -14,6 +15,7 @@ CORS(app)
 def areas():
     input_json = request.get_json(force=True)
     result = findNearby(input_json)
+    result = addAds(result)
     return jsonify(result)
 
 @app.route('/cached', methods=['POST'])
