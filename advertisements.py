@@ -1,11 +1,11 @@
 import random
 
 def addAds(json):
-  json['advertisements'] = []
   for circle in json['heatmaps']:
+    circle['advertisements'] = []
     for i, establishment in enumerate(circle['details']):
       location = establishment['geometry']['location']
-      json['advertisements'].append({
+      circle['advertisements'].append({
         'name': 'Placeholder Apartment %s'%(i),
         'description': '3 BHK, price: 50,00,000 INR, Placeholder description.',
         'lat': float(location['lat']) + (random.random() - .5),

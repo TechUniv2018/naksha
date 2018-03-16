@@ -20,5 +20,5 @@ def areas():
 
 @app.route('/cached', methods=['POST'])
 def cached():
-    with open('./cache/heatmaps.json') as f:
+    with open('./cache/response.json') as f:
       return jsonify(json.load(f))
