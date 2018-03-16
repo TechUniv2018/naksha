@@ -19,8 +19,8 @@ def pollGmaps(lat, lng, preferences):
         uri = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&radius=%s&type=%s&key=%s' \
               %(lat,lng,RADIUS,location_type,KEY)
 
-    responseJson = requests.get(uri).json()
-    results += responseJson['results']
+        responseJson = requests.get(uri).json()
+        results += responseJson['results']
     return results
 
 def pollGmapsMock(a,b,c):
