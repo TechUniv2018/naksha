@@ -22,3 +22,6 @@ def areas():
 def cached():
     with open('./cache/response.json') as f:
       return jsonify(json.load(f))
+
+if __name__ == "__main__":
+    app.run()
