@@ -15,9 +15,11 @@ def addAds(json):
     for i, establishment in enumerate(circle['details']):
       index = random.randint(0, len(names)-1)
       location = establishment['geometry']['location']
+      bhk = random.randint(1,3)
+      cost = random.randint(5,50)
       circle['advertisements'].append({
         'name': '%s APARTMENT'%(names[index]),
-        'description': '3 BHK, price: 50,00,000 INR.',
+        'description': '%s BHK, price: %s lakh INR.'%(bhk, cost),
         'lat': float(location['lat']) + (random.random() - .5) * SCALE,
         'lng': float(location['lng']) + (random.random() - .5) * SCALE
       })
