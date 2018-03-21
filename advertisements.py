@@ -21,10 +21,12 @@ def getIndex(json, lat, lng):
     distances.append(distance)
 
   #print(np.min(distances), MAX_DISTANCE)
-
-  if np.min(distances) < MAX_DISTANCE:
-    return np.argmin(distances)
-  else:
+  try:
+    if np.min(distances) < MAX_DISTANCE:
+      return np.argmin(distances)
+    else:
+      return -1
+  except:
     return -1
 
 def addAds(json):
