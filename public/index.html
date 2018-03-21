@@ -518,7 +518,6 @@
         'shopping_mall', 'gym', 'pharmacy', 'movie_theatre', 'park', 'bar']
 
       const preferences = ids.map((id) => {
-        console.log(id)
         return {
           'name': id,
           'weight': parseFloat(document.getElementById(id).value)
@@ -541,7 +540,7 @@
             preferences,
           };
           console.log('fetching', JSON.stringify(reqObj));
-          fetch('https://0.0.0.0:5000/areas', {
+          fetch('http://0.0.0.0:5000/areas', {
             method: 'post',
             body: JSON.stringify(reqObj)
           }).then((res) => res.json())
