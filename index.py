@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from flask import send_from_directory
+from flask import redirect
 
 from flask_cors import CORS
 
@@ -11,6 +12,10 @@ from advertisements import addAds
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/')
+def base():
+    return redirect("/index.html", code=302)
 
 @app.route('/<path:path>')
 def send_files(path):
