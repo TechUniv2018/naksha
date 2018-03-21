@@ -6,6 +6,9 @@ from helpers import truncatedRound
 
 advertisements = pd.read_csv('./AdDetails.csv')
 
+# Max distance to which flats are picked up based on degrees
+MAX_DISTANCE = (1.0 / 111)
+
 def getIndex(json, lat, lng):
   tLat = truncatedRound(lat)
   tLng = truncatedRound(lng)
@@ -17,11 +20,19 @@ def getIndex(json, lat, lng):
     distance = np.linalg.norm(srcLatLng-destLatLng)
     distances.append(distance)
 
-  return np.argmin(distances)
+  #print(np.min(distances), MAX_DISTANCE)
+
+  if np.min(distances) < MAX_DISTANCE:
+    return np.argmin(distances)
+  else:
+    return -1
 
 def addAds(json):
   for i,advertisement in advertisements.iterrows():
     index = getIndex(json, advertisement['lat'], advertisement['lng'])
+
+    if index == -1:
+      continue
 
     if 'advertisements' not in json['heatmaps'][index]:
       json['heatmaps'][index]['advertisements'] = []
@@ -35,9 +46,8 @@ def addAds(json):
       'bhk':str(int(advertisement['bhk']))
     }
 
-    print(data)
+    #print(data)
 
     json['heatmaps'][index]['advertisements'].append(data)    
   
   return json
-
