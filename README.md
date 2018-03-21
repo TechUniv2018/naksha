@@ -4,4 +4,5 @@
 
 # Running
 
-`FLASK_APP=index.py flask run`
+MAC: `FLASK_APP=index.py flask run`
+WINDOWS: `python index.py`
