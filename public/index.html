@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<title>NAKSHA - Find the best locations for your house</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<!-- <head><script src="main.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  crossorigin="anonymous">
+</head>
+<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script>
+  $(document).ready(function () {
+    $("#locationInput").keypress(function (e) {
+      if (e.which === 13) {
+
+        $('#console')[0].scrollIntoView(true);
+      }
+    });
+  });
+  $(document).ready(function () {
+    $("#navHomes").click(function () {
+
+
+      $('#console')[0].scrollIntoView(true);
+
+    });
+  });
+  $(document).ready(function () {
+    $("#navOthers").click(function () {
+
+
+      $('#contact')[0].scrollIntoView(true);
+
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $("#submitBtn").click(function () {
+      $('#map').hide();
+      $('#cssLoader').show("slow");
+      $('#cssLoader')[0].scrollIntoView(true);
+
+      setTimeout(() => {
+        $('#cssLoader').hide("slow");
+        $('#map').show("slow");
+      }, 8000);
+
+
+    });
+  });
+  $(document).ready(function () {
+    $('#cssLoader').hide();
+    $('#map').hide();
+  });
+
+</script>
+<style>
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Lato", sans-serif;
+  }
+
+  body,
+  html {
+    height: 100%;
+    color: #777;
+    line-height: 1.8;
+  }
+
+  /* Create a Parallax Effect */
+
+  .bgimg-1,
+  .bg-img4,
+  .bgimg-2,
+  .bgimg-3 {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  /* First image (Logo. Full height) */
+
+  .bgimg-1 {
+    background-image: url("img/maps-edited.jpg");
+    min-height: 90%;
+  }
+
+  /* Second Image (Categories) */
+
+  .bgimg-4 {
+    background-image: url("img/categories-edited.jpg");
+    min-height: 400px;
+  }
+
+  /* Third image (Home category) */
+
+  .bgimg-2 {
+    background-image: url("img/home-second-edited.jpg");
+    min-height: 500px;
+  }
+
+  /* Fourth image (More Categories) */
+
+  .bgimg-3 {
+    background-image: url("img/random-contact.jpg");
+    min-height: 400px;
+  }
+
+  .w3-wide {
+    letter-spacing: 10px;
+  }
+
+  .w3-hover-opacity {
+    cursor: pointer;
+  }
+
+  .custom-css-logo {
+    font-size: 4em !important;
+  }
+
+
+  /* Turn off parallax scrolling for tablets and phones */
+
+  @media only screen and (max-device-width: 1024px) {
+    .bgimg-1,
+    .bgimg-2,
+    .bgimg-4,
+    .secondLabel,
+    .bgimg-3 {
+      background-attachment: scroll;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .firstLable-low {
+      width: 30%
+    }
+    /* show it on small screens */
+    .firstLabel-high {
+      width: 57%;
+      text-align: right;
+    }
+  }
+
+  /* @media screen and (min-width: 421px) and (max-width: 1024px) {
+        .firstLabel { display: inline; }   /* hide it elsewhere */
+
+  /* } */
+
+  @media screen and (min-width: 0px) and (max-width: 600px) {
+    .secondLabel {
+      display: none;
+    }
+    /* show it on small screens */
+  }
+
+  @media screen and (min-width: 701px) {
+    .secondLabel {
+      display: block;
+    }
+    /* hide it elsewhere */
+  }
+</style>
+
+<body>
+  <!-- Navbar (sit on top) -->
+  <div class="w3-top ">
+    <div class="w3-bar " id="myNavbar">
+      <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()"
+        title="Toggle Navigation Menu">
+        <i class="fa fa-bars"></i>
+      </a>
+      <a href="#home" class="w3-bar-item w3-button">नक्शा</a>
+      <a href="#console" class="w3-bar-item w3-button w3-hide-small">
+        HOMES</a>
+
+      </a>
+    </div>
+
+    <!-- Navbar on small screens -->
+    <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+      <a href="#console" class="w3-bar-item w3-button">HOMES</a>
+      <a href="#contact" class="w3-bar-item w3-button">OTHERS</a>
+
+    </div>
+  </div>
+
+  <!-- First Parallax Image with Logo Text -->
+  <div class="bgimg-1 w3-display-container w3-hide-small w3-opacity-min" id="home">
+    <div class="w3-display-middle" style="white-space:nowrap;">
+      <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity custom-css-logo">NAKSHA
+    </div>
+    <br/>
+    <br/>
+    <div class="w3-display-middle" style="white-space:nowrap; width:80%; margin-top: 150px;">
+      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput" onchange="updateLocationInput" />
+    </div>
+  </div>
+
+
+  <!-- Container (Categories Section) -->
+  <div class="w3-row w3-center w3-hide-small w3-dark-grey w3-padding-16">
+    <div class="w3-center w3-section">
+      <span class="w3-xlarge">Categories</span>
+    </div>
+  </div>
+
+  <!-- Parallax Image for categories -->
+  <div class="bgimg-4 w3-display-container w3-hide-small w3-opacity-min">
+    <div class="w3-display-middle">
+      <h2 class="w3-center" style="color: white;">What do you want to search today ? </h2>
+    </div>
+  </div>
+
+  <!-- Categories listing -->
+  <div class="w3-row" id="categories">
+    <button class="w3-button w3-block w3-blue-grey" id="navHomes">Homes</button>
+    <button class="w3-button w3-block w3-blue-grey" id="navOthers">Others</button>
+  </div>
+
+  <!-- Container (Home Section) -->
+  <div class="w3-row w3-center w3-dark-grey w3-padding-16">
+    <div class="w3-center w3-section">
+      <span class="w3-xlarge">HOMES</span>
+    </div>
+  </div>
+
+  <!-- Second Parallax Image for Home Category -->
+  <div class="bgimg-2 w3-display-container w3-opacity-min">
+    <div class="w3-display-middle">
+      <h2 class="w3-center" style="color: white;">Helping you find Homes, in places which are best for you. </h2>
+    </div>
+  </div>
+  <!-- <div class="w3-container">
+        <input type="address" class="w3-input" placeholder="Search Area" id="locationInput" onchange="updateLocationInput()"
+        />
+    </div> -->
+
+  <!-- <div class='w3-cell-row'>
+       <br/><br/>
+        <datalist id="tickmarks">
+            <option value="0">
+            <option value="1" label="Low">
+            <option value="2">
+            <option value="3">
+            <option value="4">
+            <option value="5">
+            <option value="6">
+            <option value="7">
+            <option value="8">
+            <option value="9">
+            <option value="10" label="High">
+        </datalist>
+    </div> -->
+  <div id="cssLoader" style="height: 1000px; background-color: white;">
+    <div id="preloader">
+      <div id="loader">
+
+      </div>
+      <center>
+        <h3> Sit tight! Getting the best locations for you. </h3>
+      </center>
+    </div>
+
+  </div>
+  <div class=w3-container id="map" style="height: 1000px;"> </div>
+  <br/>
+  <br/>
+
+  <div class="w3-row" id="console">
+    <div>
+      <center>
+        Move the sliders towards right according to their importance
+        <br/> Sliders at left most postition are not taken into account
+        <br/>
+        <br/>
+      </center>
+    </div>
+    <center>
+      <div class="w3-half w3-container ">
+        <div class="firstLabel">
+          <span class="w3-quarter"></span>
+          <span class="w3-threequarter firstLable-low">Low</span>
+          <span class="w3-quarter firstLabel-high">High</span>
+        </div>
+
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">ATM's</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="atm" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Hospitals</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="hospital" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Airport(s)</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="airport" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Railway Station(s)</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="train_station" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Banks</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="bank" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Schools</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="school" onchange="updateinputarray" list="tickmarks">
+
+          </div>
+        </div>
+      </div>
+      <div class="w3-half w3-container ">
+        <div class="secondLabel">
+          <span class="w3-quarter"></span>
+          <span class="w3-threequarter">Low</span>
+          <span class="w3-quarter">High</span>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Shopping Mall</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="shopping_mall" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Gym</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="gym" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Pharmacy</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="pharmacy" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Movie theatre</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="movie_theatre" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Park</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="park" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+        <div class="w3-row">
+          <div class="w3-quarter w3-container ">Pubs</div>
+          <div class="w3-threequarter w3-container">
+            <input type="range" min="0" max="10" value="0" class="slider" id="bar" onchange="updateinputarray" list="tickmarks">
+          </div>
+        </div>
+    </center>
+    </div>
+  </div>
+  </center>
+
+  <!-- Container (Actions for Home Category) -->
+  <!-- <button onclick="showdata()" >Show Data </button> -->
+  <div class="w3-content w3-container w3-padding-64" id="portfolio">
+    <center>
+      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput2" onchange="updateLocationInput" />
+      <br/>
+    </center>
+    <center>
+      <button class="w3-button w3-block w3-black" onclick="getLocation()" id="submitBtn" style="width:80%">
+        <h3> Search</h3>
+      </button>
+    </center>
+  </div>
+
+  <!-- Third Parallax Image with Portfolio Text -->
+  <div class="bgimg-3 w3-display-container w3-opacity-min" id="contact">
+    <div class="w3-display-middle">
+      <span class="w3-xxlarge w3-text-white w3-wide">More Categories Coming Soon</span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
+    <a href="#home" class="w3-button w3-light-grey">
+      <i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+  </footer>
+
+  <!-- Add Google Maps -->
+
+  <script>
+    // (function initLocalStore() {
+    //   ar = new Object();
+    //   ar['atm'] = 0;
+    //   ar['school'] = 0;
+    //   ar['bank'] = 0;
+    //   ar['hospital'] = 0;
+    //   ar['movie_theatre'] = 0;
+    //   ar['park'] = 0;
+    //   ar['convenience_store'] = 0;
+    //   ar['pharmacy'] = 0;
+    //   ar['police'] = 0;
+    //   ar['resturant'] = 0;
+    //   ar['train_station'] = 0;
+    //   ar['place_of_worship'] = 0;
+    //   ar['police'] = 0;
+    //   ar['shopping_mall'] = 0;
+    //   ar['bar'] = 0;
+    //   ar['gym'] = 0;
+    //   console.log(ar);
+
+    // })();
+    // DOESNT WORK
+    function updateinputarray(event) {
+      // console.log(event.target)
+      // ar[event.target.id] = event.target.value;
+    }
+
+    function showdata() {
+      console.log(ar);
+      console.log(latitude);
+      console.log(longitude);
+    }
+
+    function initAutocomplete() {
+      // Create the autocomplete object, restricting the search to geographical
+      // location types.
+      autocomplete = new google.maps.places.Autocomplete(
+                /** @type {!HTMLInputElement} */(document.getElementById('locationInput')),
+        { types: ['geocode'] });
+      autocomplete2 = new google.maps.places.Autocomplete(
+                /** @type {!HTMLInputElement} */(document.getElementById('locationInput2')),
+        { types: ['geocode'] });
+
+      // When the user selects an address from the dropdown, populate the address
+      // fields in the form.
+      autocomplete2.addListener('place_changed', fillInAddress);
+      autocomplete.addListener('place_changed', fillInAddress);
+    }
+    function fillInAddress() {
+      // Get the place details from the autocomplete object.
+      var place = autocomplete.getPlace();
+
+      for (var component in componentForm) {
+        document.getElementById(component).value = '';
+        document.getElementById(component).disabled = false;
+      }
+
+      // Get each component of the address from the place details
+      // and fill the corresponding field on the form.
+      for (var i = 0; i < place.address_components.length; i++) {
+        var addressType = place.address_components[i].types[0];
+        if (componentForm[addressType]) {
+          var val = place.address_components[i][componentForm[addressType]];
+          document.getElementById(addressType).value = val;
+        }
+      }
+    }
+
+    // Bias the autocomplete object to the user's geographical location,
+    // as supplied by the browser's 'navigator.geolocation' object.
+    function geolocate() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          var geolocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          var circle = new google.maps.Circle({
+            center: geolocation,
+            radius: position.coords.accuracy
+          });
+          autocomplete.setBounds(circle.getBounds());
+        });
+      }
+    }
+
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHf7bfggJPlwwz98LjvpayBSKYaqulTe4&libraries=places,visualization&callback=initAutocomplete&sensor=true"
+    async defer></script>
+
+  <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
+  <script type="text/javascript">
+    // DOESNT WORK
+    function updateLocationInput(event) {
+      // console.log('here')
+      // locationInputValue = event.target.value;
+      // document.getElementById('locationInput').value = event.target.value;
+      // document.getElementById('locationInput2').value = event.target.value;
+    }
+    function getLocation() {
+      const addr = document.getElementById('locationInput').value.length > 0 ?
+        document.getElementById('locationInput').value :
+        document.getElementById('locationInput2').value;
+
+      const ids = ['atm', 'hospital', 'airport', 'train_station', 'bank', 'school',
+        'shopping_mall', 'gym', 'pharmacy', 'movie_theatre', 'park', 'bar']
+
+      const preferences = ids.map((id) => {
+        console.log(id)
+        return {
+          'name': id,
+          'weight': parseFloat(document.getElementById(id).value)
+        }
+      });
+
+      var geocoder = new google.maps.Geocoder();
+      console.log(addr);
+      geocoder.geocode({
+        'address': addr
+      }, function (results, status) {
+
+        if (status == google.maps.GeocoderStatus.OK) {
+          latitude = results[0].geometry.location.lat();
+          longitude = results[0].geometry.location.lng();
+
+          const reqObj = {
+            lat: latitude,
+            lng: longitude,
+            preferences,
+          };
+          console.log('fetching', JSON.stringify(reqObj));
+          fetch('https://0.0.0.0:5000/areas', {
+            method: 'post',
+            body: JSON.stringify(reqObj)
+          }).then((res) => res.json())
+            .then(obj => {
+              console.log(latitude, longitude);
+              console.log(obj.heatmaps);
+              onSubmit(obj.heatmaps, latitude, longitude);
+            });
+        } else {
+          console.log('geocoder status', status);
+        }
+      });
+
+    }
+  </script>
+
+  <script src="mapPlot.js"></script>
+
+</body>
+
+</html>

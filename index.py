@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
+from flask import send_from_directory
 
 from flask_cors import CORS
 
@@ -10,6 +11,10 @@ from advertisements import addAds
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/<path:path>')
+def send_files(path):
+    return send_from_directory('./public', path)
 
 @app.route('/areas', methods=['POST'])
 def areas():
