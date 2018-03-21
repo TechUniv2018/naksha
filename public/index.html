@@ -497,10 +497,8 @@
     }
 
   </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHf7bfggJPlwwz98LjvpayBSKYaqulTe4&libraries=places,visualization&callback=initAutocomplete&sensor=true"
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHf7bfggJPlwwz98LjvpayBSKYaqulTe4&libraries=places,visualization&callback=initAutocomplete"
     async defer></script>
-
-  <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
   <script type="text/javascript">
     // DOESNT WORK
     function updateLocationInput(event) {
@@ -543,7 +541,7 @@
           fetch('/areas', {
             method: 'post',
             body: JSON.stringify(reqObj)
-          }).then((res) => res.json())
+          }).then((res) => { console.log(res); return res.json(); })
             .then(obj => {
               console.log(latitude, longitude);
               console.log(obj.heatmaps);
