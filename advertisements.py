@@ -1,26 +1,43 @@
-import random
 import csv
+import pandas as pd
+import numpy as np
 
-names = []
+from helpers import truncatedRound
 
-with open('./streets.csv') as f:
-  reader = csv.reader(f)
-  for row in reader:
-    names.append(row[0])
+advertisements = pd.read_csv('./AdDetails.csv')
+
+def getIndex(json, lat, lng):
+  tLat = truncatedRound(lat)
+  tLng = truncatedRound(lng)
+
+  distances = []
+  for circle in json['heatmaps']:
+    srcLatLng = np.array([float(circle['lat']),float(circle['lng'])])
+    destLatLng = np.array([tLat,tLng])
+    distance = np.linalg.norm(srcLatLng-destLatLng)
+    distances.append(distance)
+
+  return np.argmin(distances)
 
 def addAds(json):
-  SCALE = 1e-2
-  for circle in json['heatmaps']:
-    circle['advertisements'] = []
-    for i, establishment in enumerate(circle['details']):
-      index = random.randint(0, len(names)-1)
-      location = establishment['geometry']['location']
-      bhk = random.randint(1,3)
-      cost = random.randint(5,50)
-      circle['advertisements'].append({
-        'name': '%s APARTMENT'%(names[index]),
-        'description': '%s BHK, price: %s lakh INR.'%(bhk, cost),
-        'lat': float(location['lat']) + (random.random() - .5) * SCALE,
-        'lng': float(location['lng']) + (random.random() - .5) * SCALE
-      })
+  for i,advertisement in advertisements.iterrows():
+    index = getIndex(json, advertisement['lat'], advertisement['lng'])
+
+    if 'advertisements' not in json['heatmaps'][index]:
+      json['heatmaps'][index]['advertisements'] = []
+
+    data = {
+      'name':advertisement['name'],
+      'lat':advertisement['lat'],
+      'lng':advertisement['lng'],
+      'price':advertisement['price'],
+      'img':advertisement['img'],
+      'bhk':str(int(advertisement['bhk']))
+    }
+
+    print(data)
+
+    json['heatmaps'][index]['advertisements'].append(data)    
+  
   return json
+
