@@ -540,7 +540,7 @@
             preferences,
           };
           console.log('fetching', JSON.stringify(reqObj));
-          fetch('http://0.0.0.0/areas', {
+          fetch('/areas', {
             method: 'post',
             body: JSON.stringify(reqObj)
           }).then((res) => res.json())
