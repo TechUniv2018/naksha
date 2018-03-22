@@ -204,7 +204,8 @@
     <br/>
     <br/>
     <div class="w3-display-middle" style="white-space:nowrap; width:80%; margin-top: 150px;">
-      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput" onchange="updateLocationInput" />
+      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput" onblur="updateLocationInput('locationInput');"
+      />
     </div>
   </div>
 
@@ -242,27 +243,7 @@
       <h2 class="w3-center" style="color: white;">Helping you find Homes, in places which are best for you. </h2>
     </div>
   </div>
-  <!-- <div class="w3-container">
-        <input type="address" class="w3-input" placeholder="Search Area" id="locationInput" onchange="updateLocationInput()"
-        />
-    </div> -->
 
-  <!-- <div class='w3-cell-row'>
-       <br/><br/>
-        <datalist id="tickmarks">
-            <option value="0">
-            <option value="1" label="Low">
-            <option value="2">
-            <option value="3">
-            <option value="4">
-            <option value="5">
-            <option value="6">
-            <option value="7">
-            <option value="8">
-            <option value="9">
-            <option value="10" label="High">
-        </datalist>
-    </div> -->
   <div id="cssLoader" style="height: 1000px; background-color: white;">
     <div id="preloader">
       <div id="loader">
@@ -384,7 +365,8 @@
   <!-- <button onclick="showdata()" >Show Data </button> -->
   <div class="w3-content w3-container w3-padding-64" id="portfolio">
     <center>
-      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput2" onchange="updateLocationInput" />
+      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput2" onblur="updateLocationInput('locationInput2')"
+      />
       <br/>
     </center>
     <center>
@@ -462,19 +444,20 @@
     function fillInAddress() {
       // Get the place details from the autocomplete object.
       var place = autocomplete.getPlace();
+      if (componentForm !== undefined) {
+        for (var component in componentForm) {
+          document.getElementById(component).value = '';
+          document.getElementById(component).disabled = false;
+        }
 
-      for (var component in componentForm) {
-        document.getElementById(component).value = '';
-        document.getElementById(component).disabled = false;
-      }
-
-      // Get each component of the address from the place details
-      // and fill the corresponding field on the form.
-      for (var i = 0; i < place.address_components.length; i++) {
-        var addressType = place.address_components[i].types[0];
-        if (componentForm[addressType]) {
-          var val = place.address_components[i][componentForm[addressType]];
-          document.getElementById(addressType).value = val;
+        // Get each component of the address from the place details
+        // and fill the corresponding field on the form.
+        for (var i = 0; i < place.address_components.length; i++) {
+          var addressType = place.address_components[i].types[0];
+          if (componentForm[addressType]) {
+            var val = place.address_components[i][componentForm[addressType]];
+            document.getElementById(addressType).value = val;
+          }
         }
       }
     }
@@ -501,17 +484,18 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHf7bfggJPlwwz98LjvpayBSKYaqulTe4&libraries=places,visualization&callback=initAutocomplete"
     async defer></script>
   <script type="text/javascript">
-    // DOESNT WORK
-    function updateLocationInput(event) {
-      // console.log('here')
-      // locationInputValue = event.target.value;
-      // document.getElementById('locationInput').value = event.target.value;
-      // document.getElementById('locationInput2').value = event.target.value;
+    function updateLocationInput(id) {
+      setTimeout(function () {
+        const newValue = document.getElementById(id).value;
+        console.log(newValue);
+        document.getElementById('locationInput').value = newValue;
+        document.getElementById('locationInput2').value = newValue;
+      }, 20);
     }
     function getLocation() {
-      const addr = document.getElementById('locationInput').value.length > 0 ?
-        document.getElementById('locationInput').value :
-        document.getElementById('locationInput2').value;
+      const addr = document.getElementById('locationInput2').value.length > 0 ?
+        document.getElementById('locationInput2').value :
+        document.getElementById('locationInput').value;
 
       const ids = ['atm', 'hospital', 'airport', 'train_station', 'bank', 'school',
         'shopping_mall', 'gym', 'pharmacy', 'movie_theatre', 'park', 'bar']
