@@ -64,7 +64,7 @@ function onSubmit(points, lat, lng) {
             },
             map: map,
             title: advertisement.name,
-            icon: './img/beachflag.png'
+            icon: './img/house.png'
           });
           marker.addListener('click', function () {
             marker.infoWindow = new google.maps.InfoWindow({
