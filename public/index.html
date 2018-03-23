@@ -14,17 +14,28 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
   $(document).ready(function () {
+    $("#locationInput").change(function () {
+      var newValue = $("#locationInput").val();
+      console.log("onChange: ", newValue);
+      $("#locationInput").val(newValue);
+      $("#locationInput2").val(newValue);
+    });
+    
     $("#locationInput").keypress(function (e) {
       if (e.which === 13) {
-
         $('#console')[0].scrollIntoView(true);
       }
+    });
+
+    $("#locationInput2").change(function () {
+      var newValue = $("#locationInput2").val();
+      console.log("onChange: ", newValue);
+      $("#locationInput").val(newValue);
+      $("#locationInput2").val(newValue);
     });
   });
   $(document).ready(function () {
     $("#navHomes").click(function () {
-
-
       $('#console')[0].scrollIntoView(true);
 
     });
@@ -204,8 +215,9 @@
     <br/>
     <br/>
     <div class="w3-display-middle" style="white-space:nowrap; width:80%; margin-top: 150px;">
-      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput" onblur="updateLocationInput('locationInput');"
+      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput" 
       />
+      <!-- onblur="updateLocationInput('locationInput');" -->
     </div>
   </div>
 
@@ -365,7 +377,7 @@
   <!-- <button onclick="showdata()" >Show Data </button> -->
   <div class="w3-content w3-container w3-padding-64" id="portfolio">
     <center>
-      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput2" onblur="updateLocationInput('locationInput2')"
+      <input type="address" class="w3-input" placeholder="Search an area" id="locationInput2"
       />
       <br/>
     </center>
@@ -444,22 +456,22 @@
     function fillInAddress() {
       // Get the place details from the autocomplete object.
       var place = autocomplete.getPlace();
-      if (componentForm !== undefined) {
-        for (var component in componentForm) {
-          document.getElementById(component).value = '';
-          document.getElementById(component).disabled = false;
-        }
+      // if (componentForm !== undefined) {
+      //   for (var component in componentForm) {
+      //     document.getElementById(component).value = '';
+      //     document.getElementById(component).disabled = false;
+      //   }
 
         // Get each component of the address from the place details
         // and fill the corresponding field on the form.
-        for (var i = 0; i < place.address_components.length; i++) {
-          var addressType = place.address_components[i].types[0];
-          if (componentForm[addressType]) {
-            var val = place.address_components[i][componentForm[addressType]];
-            document.getElementById(addressType).value = val;
-          }
-        }
-      }
+        // for (var i = 0; i < place.address_components.length; i++) {
+        //   var addressType = place.address_components[i].types[0];
+        //   if (componentForm[addressType]) {
+        //     var val = place.address_components[i][componentForm[addressType]];
+        //     document.getElementById(addressType).value = val;
+        //   }
+        // }
+      // }
     }
 
     // Bias the autocomplete object to the user's geographical location,
@@ -484,14 +496,12 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHf7bfggJPlwwz98LjvpayBSKYaqulTe4&libraries=places,visualization&callback=initAutocomplete"
     async defer></script>
   <script type="text/javascript">
-    function updateLocationInput(id) {
-      setTimeout(function () {
-        const newValue = document.getElementById(id).value;
-        console.log(newValue);
-        document.getElementById('locationInput').value = newValue;
-        document.getElementById('locationInput2').value = newValue;
-      }, 20);
-    }
+    // function updateLocationInput(id) {
+    //   const newValue = document.getElementById(id).value;
+    //   console.log(newValue);
+    //   document.getElementById('locationInput').value = newValue;
+    //   document.getElementById('locationInput2').value = newValue;
+    // }
     function getLocation() {
       const addr = document.getElementById('locationInput2').value.length > 0 ?
         document.getElementById('locationInput2').value :
@@ -523,7 +533,7 @@
             preferences,
           };
           console.log('fetching', JSON.stringify(reqObj));
-          fetch('/areas', {
+          fetch('localhost:5000/areas', {
             method: 'post',
             body: JSON.stringify(reqObj)
           }).then((res) => { console.log(res); return res.json(); })
