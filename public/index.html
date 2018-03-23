@@ -56,10 +56,10 @@
       $('#cssLoader').show("slow");
       $('#cssLoader')[0].scrollIntoView(true);
 
-      setTimeout(() => {
-        $('#cssLoader').hide("slow");
-        $('#map').show("slow");
-      }, 8000);
+      // setTimeout(() => {
+      //   $('#cssLoader').hide("slow");
+      //   $('#map').show("slow");
+      // }, 8000);
 
 
     });
@@ -188,11 +188,11 @@
   <!-- Navbar (sit on top) -->
   <div class="w3-top ">
     <div class="w3-bar " id="myNavbar">
-      <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()"
+      <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right w3-hide-small" href="javascript:void(0);" onclick="toggleFunction()"
         title="Toggle Navigation Menu">
         <i class="fa fa-bars"></i>
       </a>
-      <a href="#home" class="w3-bar-item w3-button">नक्शा</a>
+      <a href="#home" class="w3-bar-item w3-button w3-hide-small">नक्शा </a>
       <a href="#console" class="w3-bar-item w3-button w3-hide-small">
         HOMES</a>
 
@@ -200,11 +200,7 @@
     </div>
 
     <!-- Navbar on small screens -->
-    <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
-      <a href="#console" class="w3-bar-item w3-button">HOMES</a>
-      <a href="#contact" class="w3-bar-item w3-button">OTHERS</a>
-
-    </div>
+    
   </div>
 
   <!-- First Parallax Image with Logo Text -->
@@ -256,7 +252,7 @@
     </div>
   </div>
 
-  <div id="cssLoader" style="height: 1000px; background-color: white;">
+  <div id="cssLoader" style="height: 750px; background-color: white;">
     <div id="preloader">
       <div id="loader">
 
@@ -267,7 +263,7 @@
     </div>
 
   </div>
-  <div class=w3-container id="map" style="height: 1000px;"> </div>
+  <div class=w3-container id="map" style="height: 750px; overflow: hidden;"> </div>
   <br/>
   <br/>
 
@@ -533,11 +529,13 @@
             preferences,
           };
           console.log('fetching', JSON.stringify(reqObj));
-          fetch('localhost:5000/areas', {
+          fetch('http://localhost:5000/areas', {
             method: 'post',
             body: JSON.stringify(reqObj)
           }).then((res) => { console.log(res); return res.json(); })
             .then(obj => {
+                $('#cssLoader').hide("slow");
+              $('#map').show("slow");
               console.log(latitude, longitude);
               console.log(obj.heatmaps);
               onSubmit(obj.heatmaps, latitude, longitude);
